@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-version="5.0.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neumorphism Studio v5.0 | Flourishing Earth</title>
+    <meta name="description" content="Fluid Physics Neumorphism Design System by Jennipher Troup">
+    <meta name="author" content="Jennipher Troup, Flourishing Earth">
+    <style>
+        /* === FLUID PHYSICS SYSTEM === */
+        :root {
+            --ne-global-bg: #e8e4e1;
+            --ne-global-bg-rgb: 232, 228, 225;
+            --ne-global-light: rgba(255,255,255,0.75);
+            --ne-global-shadow: rgba(139,123,111,0.35);
+            --ne-global-text: #5a5048;
+            --ne-global-accent: #6b5b4f;
+            --aria-focus-outline: 2px dotted var(--ne-global-accent);
+        }
+
+        body {
+            background: var(--ne-global-bg);
+            color: var(--ne-global-text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Accessibility Enhancements */
+        a, button {
+            outline: none;
+        }
+        a:focus-visible, button:focus-visible {
+            outline: var(--aria-focus-outline);
+            outline-offset: 3px;
+        }
+
+        button {
+            background-color: var(--ne-global-bg);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 4px 4px 10px var(--ne-global-shadow), -4px -4px 10px var(--ne-global-light);
+            color: var(--ne-global-text);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            box-shadow: 6px 6px 14px var(--ne-global-shadow), -6px -6px 14px var(--ne-global-light);
+        }
+
+        button:focus-visible {
+            outline: var(--aria-focus-outline);
+            outline-offset: 2px;
+        }
+
+        /* Color Contrast Badge */
+        .contrast-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 8px;
+            background-color: var(--ne-global-accent);
+            color: white;
+        }
+
+        .contrast-check-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+            max-width: 400px;
+            background: var(--ne-global-bg);
+            border-radius: 1rem;
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <section class="contrast-checker">
+            <h1>Contrast Ratio Checker</h1>
+            <p>Test your colors for WCAG accessibility compliance.</p>
+
+            <div class="contrast-check-container">
+                <label for="textColor">Text Color</label>
+                <input type="color" id="textColor" value="#5a5048">
+
+                <label for="bgColor">Background Color</label>
+                <input type="color" id="bgColor" value="#e8e4e1">
+
+                <button id="checkContrast">Check</button>
+                <div id="contrastResult" class="contrast-badge">AA Pass</div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const textColorInput = document.getElementById('textColor');
+        const bgColorInput = document.getElementById('bgColor');
+        const contrastResult = document.getElementById('contrastResult');
+        const checkButton = document.getElementById('checkContrast');
+
+        function luminance(r, g, b) {
+            const a = [r, g, b].map(v => {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        function contrast(rgb1, rgb2) {
+            const lum1 = luminance(rgb1[0], rgb1[1], rgb1[2]);
+            const lum2 = luminance(rgb2[0], rgb2[1], rgb2[2]);
+            const brightest = Math.max(lum1, lum2);
+            const darkest = Math.min(lum1, lum2);
+            return (brightest + 0.05) / (darkest + 0.05);
+        }
+
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.replace('#', ''), 16);
+            return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+        }
+
+        checkButton.addEventListener('click', () => {
+            const textColor = hexToRgb(textColorInput.value);
+            const bgColor = hexToRgb(bgColorInput.value);
+            const ratio = contrast(textColor, bgColor).toFixed(2);
+
+            contrastResult.textContent = ratio >= 4.5 ? 'AA Pass' : 'AA Fail';
+            contrastResult.style.backgroundColor = ratio >= 4.5 ? '#48bb78' : '#e53e3e';
+        });
+    </script>
+</body>
+</html>
