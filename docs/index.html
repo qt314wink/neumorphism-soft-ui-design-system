@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jewelmorphism — Neumorphism Soft UI Design System</title>
+  <style>
+    :root {
+      --bg: #e0d8f0;
+      --surface: #e8e0f8;
+      --shadow-dark: rgba(120, 80, 180, 0.25);
+      --shadow-light: rgba(255, 255, 255, 0.85);
+      --accent: #9b6de0;
+      --accent2: #e07ab0;
+      --text: #3a2060;
+      --text-muted: #7a60a0;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+    header h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 3rem auto;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow:
+        8px 8px 20px var(--shadow-dark),
+        -8px -8px 20px var(--shadow-light);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        12px 12px 28px var(--shadow-dark),
+        -12px -12px 28px var(--shadow-light);
+    }
+    .card h2 { font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--accent); }
+    .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+    .gem {
+      display: inline-block;
+      width: 60px; height: 60px;
+      margin-bottom: 1rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow:
+        4px 4px 12px var(--shadow-dark),
+        -4px -4px 12px var(--shadow-light),
+        inset 2px 2px 6px rgba(255,255,255,0.4);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; justify-content: center; }
+    .btn {
+      padding: 0.75rem 1.75rem;
+      border-radius: 50px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      box-shadow: 4px 4px 14px var(--shadow-dark);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 6px 6px 18px var(--shadow-dark); }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--accent);
+      box-shadow:
+        4px 4px 12px var(--shadow-dark),
+        -4px -4px 12px var(--shadow-light);
+    }
+    .btn-ghost:hover { transform: translateY(-2px); }
+    .input-demo {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .neumorphic-input {
+      background: var(--surface);
+      border: none;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-size: 0.95rem;
+      box-shadow:
+        inset 4px 4px 10px var(--shadow-dark),
+        inset -4px -4px 10px var(--shadow-light);
+      outline: none;
+      transition: box-shadow 0.2s;
+    }
+    .neumorphic-input:focus {
+      box-shadow:
+        inset 6px 6px 14px var(--shadow-dark),
+        inset -6px -6px 14px var(--shadow-light),
+        0 0 0 2px var(--accent);
+    }
+    .toggle-row { display: flex; gap: 1rem; align-items: center; margin-top: 1rem; }
+    .toggle {
+      width: 52px; height: 28px;
+      background: var(--surface);
+      border-radius: 50px;
+      box-shadow:
+        inset 3px 3px 8px var(--shadow-dark),
+        inset -3px -3px 8px var(--shadow-light);
+      position: relative;
+      cursor: pointer;
+    }
+    .toggle.on { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      background: white;
+      border-radius: 50%;
+      top: 4px; left: 4px;
+      transition: left 0.2s;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    }
+    .toggle.on::after { left: 28px; }
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.9rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      box-shadow: 2px 2px 8px var(--shadow-dark);
+      margin: 0.25rem;
+    }
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    section.token-section {
+      max-width: 1100px;
+      margin: 0 auto 3rem;
+    }
+    section.token-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    .token-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .token-swatch {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      box-shadow:
+        6px 6px 16px var(--shadow-dark),
+        -6px -6px 16px var(--shadow-light);
+      min-width: 160px;
+      text-align: center;
+    }
+    .swatch-color {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      margin: 0 auto 0.5rem;
+      box-shadow: 3px 3px 8px var(--shadow-dark);
+    }
+    .token-name { font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="gem"></div>
+  <h1>Jewelmorphism</h1>
+  <p>A soft UI design system with physics-based elemental animations &amp; jewel-toned depth</p>
+  <div class="btn-row">
+    <a href="https://github.com/qt314wink/neumorphism-soft-ui-design-system" class="btn btn-primary">View on GitHub</a>
+    <a href="neumorphism-guide.md" class="btn btn-ghost">Read the Docs</a>
+  </div>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>📦 Components</h2>
+    <p>Fully styled soft-UI components built on layered box-shadow depth and inset lighting.
+    Every surface feels carved from light.</p>
+    <div class="btn-row" style="justify-content:flex-start; margin-top:1rem">
+      <span class="badge">Buttons</span>
+      <span class="badge">Inputs</span>
+      <span class="badge">Toggles</span>
+      <span class="badge">Cards</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🌀 Buttons</h2>
+    <p>Press-state physics make interactions feel satisfying and real.</p>
+    <div class="btn-row" style="margin-top:1rem; justify-content:flex-start">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-ghost">Ghost</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✏️ Inputs</h2>
+    <p>Inset shadows create a sense of depth and physical indentation in form fields.</p>
+    <div class="input-demo">
+      <input class="neumorphic-input" type="text" placeholder="Your name..." />
+      <input class="neumorphic-input" type="email" placeholder="Email address..." />
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔁 Toggles</h2>
+    <p>Tactile toggles with smooth transition between inset and raised states.</p>
+    <div class="toggle-row">
+      <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+</div>
+
+<section class="token-section">
+  <h2>🎨 Color Tokens</h2>
+  <div class="token-grid">
+    <div class="token-swatch"><div class="swatch-color" style="background:#9b6de0"></div><div class="token-name">--accent</div></div>
+    <div class="token-swatch"><div class="swatch-color" style="background:#e07ab0"></div><div class="token-name">--accent2</div></div>
+    <div class="token-swatch"><div class="swatch-color" style="background:#e0d8f0"></div><div class="token-name">--bg</div></div>
+    <div class="token-swatch"><div class="swatch-color" style="background:#e8e0f8"></div><div class="token-name">--surface</div></div>
+    <div class="token-swatch"><div class="swatch-color" style="background:#3a2060"></div><div class="token-name">--text</div></div>
+    <div class="token-swatch"><div class="swatch-color" style="background:#7a60a0"></div><div class="token-name">--text-muted</div></div>
+  </div>
+</section>
+
+<footer>
+  Built by <a href="https://github.com/qt314wink">Jennipher Troup</a> &mdash;
+  <a href="https://github.com/qt314wink/neumorphism-soft-ui-design-system">GitHub</a> &mdash;
+  MIT License
+</footer>
+
+</body>
+</html>
